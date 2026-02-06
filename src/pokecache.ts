@@ -3,7 +3,6 @@ export type CacheEntry<T> = {
   val: T;
 };
 
-
 export class Cache {
   #cache = new Map<string, CacheEntry<any>>();
   #reapIntervalId: NodeJS.Timeout | undefined = undefined;
@@ -51,3 +50,4 @@ export class Cache {
     this.#reapIntervalId = undefined;
   }
 }
+

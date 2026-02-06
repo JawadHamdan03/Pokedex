@@ -99,3 +99,4 @@ export class PokeAPI {
     return data;
   }
 }
+

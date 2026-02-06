@@ -1,12 +1,20 @@
-import { cleanInput } from "./repl-utils.js";
+import { cleanInput } from "./repl";
 import { describe, expect, test } from "vitest";
 
 describe.each([
-  { input: "  hello  world  ", expected: ["hello", "world"] },
-  { input: "Charmander Bulbasaur PIKACHU", expected: ["charmander", "bulbasaur", "pikachu"] },
-  { input: "   Snorlax   ", expected: ["snorlax"] },
-  { input: " ", expected: [] },
-])("cleanInput('$input')", ({ input, expected }) => {
+  {
+    input: "  hello  world  ",
+    expected: ["hello", "world"],
+  },
+  {
+    input: "Charmander Bulbasaur PIKACHU",
+    expected: ["charmander", "bulbasaur", "pikachu"],
+  },
+  {
+    input: "   one     two   three ",
+    expected: ["one", "two", "three"],
+  },
+])("cleanInput($input)", ({ input, expected }) => {
   test(`Expected: ${expected}`, () => {
     const actual = cleanInput(input);
 
@@ -16,3 +24,4 @@ describe.each([
     }
   });
 });
+

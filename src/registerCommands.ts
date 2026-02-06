@@ -2,7 +2,7 @@ import type { State } from "./state.js";
 import { commandExit } from "./command_exit.js";
 import { commandHelp } from "./command_help.js";
 import { commandMap } from "./command_map.js";
-import { commandMapBack } from "./command_mapb.js";
+import { commandMapb } from "./command_mapb.js";
 import { commandExplore } from "./command_explore.js";
 
 
@@ -26,9 +26,9 @@ export function registerCommands(state: State) {
     mapb: {
       name: "mapb",
       description: "Shows previous 20 locations",
-      callback: commandMapBack,
+      callback: commandMapb,
     },
-    explore : {
+    explore: {
       name: "explore",
       description: "Explore a location area",
       callback: commandExplore,

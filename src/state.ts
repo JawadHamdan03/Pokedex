@@ -1,18 +1,20 @@
-import { createInterface } from "readline";
+import { createInterface, type Interface } from "node:readline";
+import { getCommands } from "./commands.js";
+import { PokeAPI, type Pokemon } from "./pokeapi.js";
 import { Cache } from "./pokecache.js";
-import { PokeAPI } from "./pokeapi.js";
-import { registerCommands } from "./registerCommands.js";
 
 export type CLICommand = {
   name: string;
   description: string;
-  callback: (state: State, ...args: string[]) => Promise<void>  
+  callback: (state: State, ...args: string[]) => Promise<void>;
 };
 
 export type State = {
-  rl: ReturnType<typeof createInterface>;
+  rl: Interface;
   commands: Record<string, CLICommand>;
-  pokeapi: PokeAPI;
+  pokeAPI: PokeAPI;
+  cache: Cache;
+  pokedex: Record<string, Pokemon>;
   nextLocationsURL: string | null;
   prevLocationsURL: string | null;
 };
@@ -24,19 +26,18 @@ export function initState(): State {
     prompt: "Pokedex > ",
   });
 
-  const cache = new Cache(60_000);
-  const pokeapi = new PokeAPI(cache);
+  const commands = getCommands();
 
-  const state: State = {
+  const cache = new Cache(5 * 60 * 1000); 
+
+  return {
     rl,
-    commands: {},
-    pokeapi,
+    commands,
+    cache,
+    pokeAPI: new PokeAPI(cache),
+    pokedex: {},
     nextLocationsURL: null,
     prevLocationsURL: null,
   };
-
-  registerCommands(state); 
-
-  return state;
 }
 
