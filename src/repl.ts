@@ -5,20 +5,21 @@ export function startREPL(state: State) {
 
   rl.prompt();
 
-  rl.on("line", (input: string) => {
+  rl.on("line", async (input: string) => {
     const words = input.trim().toLowerCase().split(/\s+/);
 
-    if (words.length === 0) {
+    if (!words[0]) {
       rl.prompt();
       return;
     }
 
     const commandName = words[0];
+    const args = words.slice(1); 
     const command = commands[commandName];
 
     if (command) {
       try {
-        command.callback(state);
+        await command.callback(state, ...args);
       } catch (err) {
         console.error("Error executing command:", err);
       }
